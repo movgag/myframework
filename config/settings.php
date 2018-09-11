@@ -1,0 +1,27 @@
+<?php
+
+return array(
+    'isRequired' => '001',
+    'isEmail' => '002',
+    'isDate' => '003',
+    'isAlpha' => '004',
+    'isNonNegInt' => '005',
+    'hasLength' => '006',
+    'hasMinLength' => '007',
+    'hasMaxLength' => '008',
+    'isUrl' => '009',
+    'isSame' => '010',
+    'isIn' => '011',
+    'isUnique' => '012',
+    'isJson' => '013',
+    'isIp'=> '014',
+    'isImage'=> '015',
+    'hasMaxSize'=> '016',
+    'isFile'=> '017',
+    'hasMimes'=> '018',
+    'hasMaxDimensions'=> '019',
+    'isExists'=> '020',
+    'isRequiredOrZero'=> '021',
+    'isNonNegIntOrZero'=> '022',
+    'isFloat'=> '023',
+);
