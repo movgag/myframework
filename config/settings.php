@@ -24,4 +24,5 @@ return array(
     'isRequiredOrZero'=> '021',
     'isNonNegIntOrZero'=> '022',
     'isFloat'=> '023',
+    'hasMinDimensions'=> '024',
 );

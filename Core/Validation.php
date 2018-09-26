@@ -106,39 +106,39 @@ class Validation {
 
     //003
     public static function isDate($val){
-
-        $arr = explode('/',$val);
-
-        if(is_array($arr) && count($arr) == 3){
-            //
-        } else {
-            $arr = explode('.',$val);
+        if($val){
+            $arr = explode('/',$val);
 
             if(is_array($arr) && count($arr) == 3){
                 //
             } else {
-                $arr = explode('-',$val);
+                $arr = explode('.',$val);
 
                 if(is_array($arr) && count($arr) == 3){
                     //
                 } else {
-                    return array(
-                        'message' => trans('en.validation.isDate')
-                    );
+                    $arr = explode('-',$val);
+
+                    if(is_array($arr) && count($arr) == 3){
+                        //
+                    } else {
+                        return array(
+                            'message' => trans('en.validation.isDate')
+                        );
+                    }
                 }
             }
-        }
 
-        $year = $arr[0];
-        $month = $arr[1];
-        $day = $arr[2];
+            $year = $arr[0];
+            $month = $arr[1];
+            $day = $arr[2];
 
-        if(!checkdate($month, $day , $year)) {
-            return array(
-                'message' => trans('en.validation.isDate')
-            );
+            if(!checkdate($month, $day , $year)) {
+                return array(
+                    'message' => trans('en.validation.isDate')
+                );
 
-        }
+            }
 //        else {
 //            $today = strtotime("now");
 //            if(strtotime($val)<$today){
@@ -148,6 +148,8 @@ class Validation {
 //            }
 //        }
 
+            return array();
+        }
         return array();
     }
 
@@ -326,49 +328,55 @@ class Validation {
     {
         $tmp_file = $file['tmp_name'];
 
-        if (file_exists($tmp_file)) {
+        if($tmp_file){
+            if (file_exists($tmp_file)) {
 
-            $imagesizedata = getimagesize($tmp_file);
-            if ($imagesizedata === FALSE) {
-                //not image
-                return array(
-                    'message' => trans('en.validation.isImage')
-                );
-            }
-            else {
-                //image
-                //use $imagesizedata to get extra info
-                return array();
-            }
-        } else {
+                $imagesizedata = getimagesize($tmp_file);
+                if ($imagesizedata === FALSE) {
+                    //not image
+                    return array(
+                        'message' => trans('en.validation.isImage')
+                    );
+                }
+                else {
+                    //image
+                    //use $imagesizedata to get extra info
+                    return array();
+                }
+            } else {
 //            return array(
 //                'message' => trans('en.validation.isRequired')
 //            );
-            return array();
+                return array();
+            }
         }
+        return array();
     }
 
     //016
     public static function hasMaxSize($file,$sec_arg)
     {
         $tmp_file = $file['tmp_name'];
+        if($tmp_file){
+            if (file_exists($tmp_file)) {
 
-        if (file_exists($tmp_file)) {
-
-            $file_size = $file['size'];
-            if ($file_size > (int)$sec_arg*1000) {
-                //not image
+                $file_size = $file['size'];
+                if ($file_size > (int)$sec_arg*1000) {
+                    //not image
+                    return array(
+                        'message' => str_replace('$attr',$sec_arg,trans('en.validation.hasMaxSize'))
+                    );
+                }
+                else {
+                    return array();
+                }
+            } else {
                 return array(
-                    'message' => str_replace('$attr',$sec_arg,trans('en.validation.hasMaxSize'))
+                    'message' => trans('en.validation.isFile')
                 );
             }
-            else {
-                return array();
-            }
         } else {
-            return array(
-                'message' => trans('en.validation.isFile')
-            );
+            return array();
         }
     }
 
@@ -377,14 +385,18 @@ class Validation {
     {
         $tmp_file = $file['tmp_name'];
 
-        if (file_exists($tmp_file)) {
+        if($tmp_file){
+            if (file_exists($tmp_file)) {
 
-            return array();
+                return array();
 
+            } else {
+                return array(
+                    'message' => trans('en.validation.isFile')
+                );
+            }
         } else {
-            return array(
-                'message' => trans('en.validation.isFile')
-            );
+            return array();
         }
     }
 
@@ -393,25 +405,29 @@ class Validation {
     {
         $tmp_file = $file['tmp_name'];
 
-        if (file_exists($tmp_file)) {
+        if($tmp_file){
+            if (file_exists($tmp_file)) {
 
-            $file_extension = pathinfo($file["name"], PATHINFO_EXTENSION);
+                $file_extension = pathinfo($file["name"], PATHINFO_EXTENSION);
 
-            $arr = explode(',',$sec_arg);
+                $arr = explode(',',$sec_arg);
 
-            if(in_array($file_extension,$arr)){
+                if(in_array($file_extension,$arr)){
 
-                return array();
+                    return array();
 
+                } else {
+                    return array(
+                        'message' => str_replace('$attr',$sec_arg,trans('en.validation.hasMimes'))
+                    );
+                }
             } else {
                 return array(
-                    'message' => str_replace('$attr',$sec_arg,trans('en.validation.hasMimes'))
+                    'message' => trans('en.validation.isFile')
                 );
             }
         } else {
-            return array(
-                'message' => trans('en.validation.isFile')
-            );
+            return array();
         }
     }
 
@@ -420,34 +436,38 @@ class Validation {
     {
         $tmp_file = $file['tmp_name'];
 
-        if (file_exists($tmp_file)) {
+        if($tmp_file){
+            if (file_exists($tmp_file)) {
 
-            $imagesizedata = getimagesize($tmp_file);
-            if ($imagesizedata === FALSE) {
-                //not image
+                $imagesizedata = getimagesize($tmp_file);
+                if ($imagesizedata === FALSE) {
+                    //not image
+                    return array(
+                        'message' => trans('en.validation.isImage')
+                    );
+                }
+                else {
+                    $real_width = $imagesizedata[0];
+                    $real_height = $imagesizedata[1];
+
+                    $arr = explode(',',$sec_arg);
+
+                    if($real_width > $arr[0] || $real_height > $arr[1]){
+                        return array(
+                            //'message' => trans('en.validation.hasMaxDimension')
+                            'message' => str_replace('$attr',str_replace(',','x',$sec_arg),trans('en.validation.hasMaxDimensions'))
+                        );
+                    } else {
+                        return array();
+                    }
+                }
+            } else {
                 return array(
-                    'message' => trans('en.validation.isImage')
+                    'message' => trans('en.validation.isFile')
                 );
             }
-            else {
-                $real_width = $imagesizedata[0];
-                $real_height = $imagesizedata[1];
-
-                $arr = explode(',',$sec_arg);
-
-                if($real_width > $arr[0] || $real_height > $arr[1]){
-                    return array(
-                        //'message' => trans('en.validation.hasMaxDimension')
-                        'message' => str_replace('$attr',str_replace(',','x',$sec_arg),trans('en.validation.hasMaxDimensions'))
-                    );
-                } else {
-                    return array();
-                }
-            }
         } else {
-            return array(
-                'message' => trans('en.validation.isFile')
-            );
+            return array();
         }
     }
 
@@ -516,30 +536,64 @@ class Validation {
     public static function isFloat($val){
 
         if($val){
-            // on progress
+            if(filter_var($val, FILTER_VALIDATE_FLOAT)){
+
+                if($val == number_format((float)$val,2,'.','')){
+                    return array();
+                } else {
+                    return array(
+                        'message' => trans('en.validation.isFloat')
+                    );
+                }
+
+            } else {
+                return array(
+                    'message' => trans('en.validation.isFloat')
+                );
+            }
         }elseif ($val ==0){
             return array();
         }
         return array();
     }
 
+    //024
+    public static function hasMinDimensions($file,$sec_arg)
+    {
+        $tmp_file = $file['tmp_name'];
+        if($tmp_file){
+            if (file_exists($tmp_file)) {
 
+                $imagesizedata = getimagesize($tmp_file);
+                if ($imagesizedata === FALSE) {
+                    //not image
+                    return array(
+                        'message' => trans('en.validation.isImage')
+                    );
+                }
+                else {
+                    $real_width = $imagesizedata[0];
+                    $real_height = $imagesizedata[1];
 
-    // cleaning $_POST
-    public static function cleanData($arr){
-        $new_arr = array();
+                    $arr = explode(',',$sec_arg);
 
-        foreach ($arr as $k => $item){
-            if(!is_array($item)){
-                $item = trim($item);
-                $item = strip_tags($item);
-                $item = htmlspecialchars($item,ENT_QUOTES);
-                $new_arr[$k] = $item;
+                    if($real_width < $arr[0] || $real_height < $arr[1]){
+                        return array(
+                            //'message' => trans('en.validation.hasMaxDimension')
+                            'message' => str_replace('$attr',str_replace(',','x',$sec_arg),trans('en.validation.hasMinDimensions'))
+                        );
+                    } else {
+                        return array();
+                    }
+                }
             } else {
-                return array();
+                return array(
+                    'message' => trans('en.validation.isFile')
+                );
             }
+        } else {
+            return array();
         }
-        return $new_arr;
     }
 
 

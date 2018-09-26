@@ -19,9 +19,10 @@ return array(
     'hasMaxSize' => 'This field should have max size $attr kilobytes', //016
     'isFile' => 'This field should be file type', //017
     'hasMimes' => 'This field has not allowed file extension ($attr)', //018
-    'hasMaxDimensions' => 'This field has not allowed image dimensions ($attr)', //019
+    'hasMaxDimensions' => 'This field has not allowed image dimensions max:($attr)', //019
     'isExists' => 'This field is not exists in database', //020
     'isRequiredOrZero' => 'This field is required', //021
     'isNonNegIntOrZero' => 'This field should be non negativ integer or zero', //022
     'isFloat' => 'This field should be float number', //023
+    'hasMinDimensions' => 'This field has not allowed image dimensions min:($attr)', //024
 );
