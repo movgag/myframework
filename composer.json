@@ -1,8 +1,8 @@
 {
   "require": {
     "phpmailer/phpmailer": "~6.0",
-    "miladrahimi/phprouter": "^2.3",
-    "nesbot/carbon": "^1.32",
+    "miladrahimi/phprouter": "4.*",
+    "nesbot/carbon": "2.*",
     "jasongrimes/paginator": "~1.0"
   }
 }
